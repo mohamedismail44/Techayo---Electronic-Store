@@ -1,0 +1,10 @@
+{
+  "html-css-class-completion.CSSLanguages": ["css", "sass", "scss"],
+  "html-css-class-completion.JavaScriptLanguages": [
+    "javascript",
+    "javascriptreact",
+    "typescriptreact"
+  ],
+  "window.zoomLevel": 2,
+  "css.enabledLanguages": ["html", "jsx"]
+}
