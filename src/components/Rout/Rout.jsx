@@ -13,10 +13,21 @@ export default function Rout({
   AddtoCart,
   CartPage,
   SetCartPage,
+  AllProduct,
+  setAllProduct,
 }) {
   return (
     <Routes>
-      <Route path="/" element={<Home AddtoCart={AddtoCart} />} />
+      <Route
+        path="/"
+        element={
+          <Home
+            AddtoCart={AddtoCart}
+            AllProduct={AllProduct}
+            setAllProduct={setAllProduct}
+          />
+        }
+      />
       <Route
         path="shop"
         element={
@@ -25,6 +36,8 @@ export default function Rout({
             SetShopPage={SetShopPage}
             CatigoryProduct={CatigoryProduct}
             AddtoCart={AddtoCart}
+            AllProduct={AllProduct}
+            setAllProduct={setAllProduct}
           />
         }
       />

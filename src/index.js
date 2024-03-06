@@ -7,6 +7,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./index.css";
 import { Auth0Provider } from "@auth0/auth0-react";
+import MediaContextProvider from "./components/Context/MediaStore";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -17,7 +18,9 @@ root.render(
       redirect_uri: window.location.origin,
     }}
   >
-    <App />
+    <MediaContextProvider>
+      <App />
+    </MediaContextProvider>
   </Auth0Provider>
 );
 

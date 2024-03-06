@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import HomeProduct from "../Home/HomeProduct";
 
 export default function Shop({
   ShopPage,
   SetShopPage,
   CatigoryProduct,
   AddtoCart,
+  AllProduct,
 }) {
   // show details product
   const [DetailsBox, setDetailsBox] = useState([]);
@@ -16,7 +16,7 @@ export default function Shop({
     setDetailsBox(product);
     setDetailsProduct(true);
   };
-  // close details product 
+  // close details product
   const CloseDetails = () => {
     setDetailsProduct(false);
   };
@@ -29,16 +29,12 @@ export default function Shop({
           <div className="details-container">
             <div className="box">
               <div className="img-box">
-                <img src={DetailsBox.image} alt="" />
+                <img src={DetailsBox.images[0]} alt="" />
               </div>
               <div className="details">
-                <p className="p1">{DetailsBox.cat}</p>
-                <p className="p2">{DetailsBox.Name}</p>
-                <p className="p3">
-                  Best HP, Dell Laptops, and Gaming Laptops Prices from B.TECH,
-                  Shop Online HP Laptop, MacBook Air, Sony Laptop and More with
-                  Easy payments"
-                </p>
+                <p className="p1">{DetailsBox.category}</p>
+                <p className="p2">{DetailsBox.title}</p>
+                <p className="p3">{DetailsBox.description}</p>
                 <p className="p4">{DetailsBox.price}$</p>
                 <button onClick={() => AddtoCart(DetailsBox)} href="">
                   add to card
@@ -67,18 +63,26 @@ export default function Shop({
             <div className="box">
               <h3>all catigories</h3>
               <ul>
-                <li onClick={() => SetShopPage(HomeProduct)}># all</li>
-                <li onClick={() => CatigoryProduct("tv")}># tv</li>
-                <li onClick={() => CatigoryProduct("laptop")}># laptop</li>
-                <li onClick={() => CatigoryProduct("watch")}># watch</li>
-                <li onClick={() => CatigoryProduct("speaker")}># speaker</li>
-                <li onClick={() => CatigoryProduct("electronics")}>
-                  # electronics
+                <li onClick={() => SetShopPage(AllProduct)}># all</li>
+                <li onClick={() => CatigoryProduct("home-decoration")}>
+                  # home-decoration
                 </li>
-                <li onClick={() => CatigoryProduct("headphone")}>
-                  # headphone
+                <li onClick={() => CatigoryProduct("fragrances")}>
+                  # fragrances
                 </li>
-                <li onClick={() => CatigoryProduct("phone")}># phone</li>
+                <li onClick={() => CatigoryProduct("smartphones")}>
+                  # smartphones
+                </li>
+                <li onClick={() => CatigoryProduct("laptops")}># laptops</li>
+
+                <li onClick={() => CatigoryProduct("skincare")}># skincare</li>
+                <li onClick={() => CatigoryProduct("groceries")}>
+                  # groceries
+                </li>
+
+                <li onClick={() => CatigoryProduct("smartphones")}>
+                  # smartphones
+                </li>
               </ul>
             </div>
             <div className="img-box">
@@ -95,7 +99,10 @@ export default function Shop({
               {ShopPage.map((ele, index) => (
                 <div key={index} className="box">
                   <div className="img-box">
-                    <img src={ele.image} alt="" />
+                    <div className="images">
+                      <img src={ele.images[0]} alt="" />
+                    </div>
+
                     <div className="icons">
                       <i className="fa-solid fa-heart"></i>
                       <i
@@ -104,7 +111,7 @@ export default function Shop({
                       ></i>
                     </div>
                   </div>
-                  <p className="p1">{ele.Name}</p>
+                  <p className="p1">{ele.title}</p>
                   <p className="p2">{ele.price}$</p>
                   <button onClick={() => AddtoCart(ele)} href="">
                     add to card

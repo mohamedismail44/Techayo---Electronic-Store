@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
 export default function Cart({ CartPage, SetCartPage }) {
@@ -47,12 +46,12 @@ export default function Cart({ CartPage, SetCartPage }) {
             <>
               <div key={index} className="box">
                 <div className="img-box">
-                  <img src={ele.image} alt="" />
+                  <img src={ele.images[0]} alt="" />
                 </div>
                 <div className="details">
                   <div className="prod-data">
-                    <h4>{ele.cat}</h4>
-                    <h3>{ele.Name}</h3>
+                    <h4>{ele.category}</h4>
+                    <h3>{ele.title}</h3>
                     <p className="p1">Price : {ele.price}$</p>
                     <p className="p2">Total : {ele.price * ele.qty}$</p>
                   </div>

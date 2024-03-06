@@ -1,25 +1,30 @@
-import React, { useState } from "react";
-import HomeProduct from "./HomeProduct";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { ProductContext } from "../Context/MediaStore";
 
-export default function Home({ AddtoCart }) {
-  const [TrindingProduct, setTrindingProduct] = useState(HomeProduct);
+export default function Home({ AddtoCart, AllProduct, setAllProduct }) {
+  // Home page api
+  const { HomePage } = useContext(ProductContext);
+  const { SetHomePage } = useContext(ProductContext);
+
   // All Product with catigory
   const TrindingClass = (x) => {
-    const TrindingCut = HomeProduct.filter((ele) => ele.type === x);
-    setTrindingProduct(TrindingCut);
+    const TrindingCut = AllProduct.filter((ele) => ele.category === x);
+    SetHomePage(TrindingCut);
   };
   //   All Product
   const AllTrinding = () => {
-    setTrindingProduct(HomeProduct);
+    SetHomePage(AllProduct);
   };
-  
-  //   NewProduct
-  const NewProduct = HomeProduct.filter((ele) => ele.type === "new");
-  //  featuredProduct
-  const featuredProduct = HomeProduct.filter((ele) => ele.type === "featured");
-  //   TopProduct
-  const TopProduct = HomeProduct.filter((ele) => ele.type === "top selling");
+
+  //   smartphones
+  const NewProduct = AllProduct.filter((ele) => ele.category === "smartphones");
+  //  laptops
+  const featuredProduct = AllProduct.filter(
+    (ele) => ele.category === "laptops"
+  );
+  //   fragrances
+  const TopProduct = AllProduct.filter((ele) => ele.category === "fragrances");
 
   // show details product
   const [DetailsBox, setDetailsBox] = useState([]);
@@ -34,6 +39,10 @@ export default function Home({ AddtoCart }) {
   const CloseDetails = () => {
     setDetailsProduct(false);
   };
+  // .................................................................................
+  // .................................................................................
+  // .................................................................................
+
   return (
     <>
       {DetailsProduct ? (
@@ -42,16 +51,12 @@ export default function Home({ AddtoCart }) {
           <div className="details-container">
             <div className="box">
               <div className="img-box">
-                <img src={DetailsBox.image} alt="" />
+                <img src={DetailsBox.images[0]} alt="" />
               </div>
               <div className="details">
-                <p className="p1">{DetailsBox.cat}</p>
-                <p className="p2">{DetailsBox.Name}</p>
-                <p className="p3">
-                  Best HP, Dell Laptops, and Gaming Laptops Prices from B.TECH,
-                  Shop Online HP Laptop, MacBook Air, Sony Laptop and More with
-                  Easy payments"
-                </p>
+                <p className="p1">{DetailsBox.category}</p>
+                <p className="p2">{DetailsBox.title}</p>
+                <p className="p3">{DetailsBox.description}</p>
                 <p className="p4">{DetailsBox.price}$</p>
                 <button onClick={() => AddtoCart(DetailsBox)} href="">
                   add to card
@@ -79,41 +84,44 @@ export default function Home({ AddtoCart }) {
               <div className="col-lg-9 left-box">
                 <div className=" heading my-3 d-flex justify-content-between">
                   <div className="l-heading">
-                    <h3 onClick={() => AllTrinding()}>trending product</h3>
+                    <h3 onClick={() => AllTrinding()}>all product</h3>
                   </div>
                   <div className="r-heading d-flex">
-                    <h3 onClick={() => TrindingClass("new")}>new</h3>
-                    <h3 onClick={() => TrindingClass("featured")}>featured</h3>
-                    <h3 onClick={() => TrindingClass("top selling")}>
-                      top selling
+                    <h3 onClick={() => TrindingClass("smartphones")}>
+                      smartphones
+                    </h3>
+                    <h3 onClick={() => TrindingClass("laptops")}>laptops</h3>
+                    <h3 onClick={() => TrindingClass("fragrances")}>
+                      fragrances
                     </h3>
                   </div>
                 </div>
                 <div className="row g-3">
-                  {TrindingProduct.map((ele, index) => (
-                    
-                      <div key={index} className="col-xl-3 col-md-4 col-sm-6">
-                        <div className="mid-card pb-3">
-                          <div className="image-card">
-                            <img src={ele.image} alt="" />
-                            <div className="icons">
-                              <i className="fa-solid fa-heart"></i>
-                              <i
-                                onClick={() => ShowDetails(ele)}
-                                className="fa-solid fa-eye"
-                              ></i>
-                            </div>
+                  {HomePage.map((ele, index) => (
+                    <div key={index} className="col-xl-3 col-md-4 col-sm-6">
+                      <div className="mid-card pb-3">
+                        <div className="image-card">
+                          <div className="images">
+                            <img src={ele.images[0]} alt="" />
                           </div>
-                          <p className="p1-mid-card">{ele.Name}</p>
-                          <p className="p2-mid-card">{ele.price}$</p>
-                          <div className="text-center">
-                            <button onClick={() => AddtoCart(ele)}>
-                              add to card
-                            </button>
+
+                          <div className="icons">
+                            <i className="fa-solid fa-heart"></i>
+                            <i
+                              onClick={() => ShowDetails(ele)}
+                              className="fa-solid fa-eye"
+                            ></i>
                           </div>
                         </div>
+                        <p className="p1-mid-card">{ele.title}</p>
+                        <p className="p2-mid-card">{ele.price}$</p>
+                        <div className="text-center">
+                          <button onClick={() => AddtoCart(ele)}>
+                            add to card
+                          </button>
+                        </div>
                       </div>
-                    
+                    </div>
                   ))}
                 </div>
                 <div className="show-more">
@@ -200,26 +208,24 @@ export default function Home({ AddtoCart }) {
               <div className="col-1">
                 <h3>new product</h3>
                 {NewProduct.map((ele, index) => (
-                 
-                    <div key={index} className="col-1-details">
-                      <img src={ele.image} alt="" />
-                      <div className="col-1-tx">
-                        <h4>{ele.Name}</h4>
-                        <h5>{ele.price}$</h5>
-                        <div className="icons">
-                          <i className="fa-solid fa-heart"></i>
-                          <i
-                            onClick={() => ShowDetails(ele)}
-                            className="fa-solid fa-eye"
-                          ></i>
-                          <i
-                            onClick={() => AddtoCart(ele)}
-                            className="fa-solid fa-cart-shopping"
-                          ></i>
-                        </div>
+                  <div key={index} className="col-1-details">
+                    <img src={ele.images[0]} alt="" />
+                    <div className="col-1-tx">
+                      <h4>{ele.title}</h4>
+                      <h5>{ele.price}$</h5>
+                      <div className="icons">
+                        <i className="fa-solid fa-heart"></i>
+                        <i
+                          onClick={() => ShowDetails(ele)}
+                          className="fa-solid fa-eye"
+                        ></i>
+                        <i
+                          onClick={() => AddtoCart(ele)}
+                          className="fa-solid fa-cart-shopping"
+                        ></i>
                       </div>
                     </div>
-                 
+                  </div>
                 ))}
               </div>
             </div>
@@ -227,26 +233,24 @@ export default function Home({ AddtoCart }) {
               <div className="col-1">
                 <h3>featured product</h3>
                 {featuredProduct.map((ele, index) => (
-                  
-                    <div key={index} className="col-1-details">
-                      <img src={ele.image} alt="" />
-                      <div className="col-1-tx">
-                        <h4>{ele.Name}</h4>
-                        <h5>{ele.price}$</h5>
-                        <div className="icons">
-                          <i className="fa-solid fa-heart"></i>
-                          <i
-                            onClick={() => ShowDetails(ele)}
-                            className="fa-solid fa-eye"
-                          ></i>
-                          <i
-                            onClick={() => AddtoCart(ele)}
-                            className="fa-solid fa-cart-shopping"
-                          ></i>
-                        </div>
+                  <div key={index} className="col-1-details">
+                    <img src={ele.images[0]} alt="" />
+                    <div className="col-1-tx">
+                      <h4>{ele.title}</h4>
+                      <h5>{ele.price}$</h5>
+                      <div className="icons">
+                        <i className="fa-solid fa-heart"></i>
+                        <i
+                          onClick={() => ShowDetails(ele)}
+                          className="fa-solid fa-eye"
+                        ></i>
+                        <i
+                          onClick={() => AddtoCart(ele)}
+                          className="fa-solid fa-cart-shopping"
+                        ></i>
                       </div>
                     </div>
-                  
+                  </div>
                 ))}
               </div>
             </div>
@@ -254,26 +258,24 @@ export default function Home({ AddtoCart }) {
               <div className="col-1">
                 <h3>top selling product</h3>
                 {TopProduct.map((ele, index) => (
-                  
-                    <div key={index} className="col-1-details">
-                      <img src={ele.image} alt="" />
-                      <div className="col-1-tx">
-                        <h4>{ele.Name}</h4>
-                        <h5>{ele.price}$</h5>
-                        <div className="icons">
-                          <i className="fa-solid fa-heart"></i>
-                          <i
-                            onClick={() => ShowDetails(ele)}
-                            className="fa-solid fa-eye"
-                          ></i>
-                          <i
-                            onClick={() => AddtoCart(ele)}
-                            className="fa-solid fa-cart-shopping"
-                          ></i>
-                        </div>
+                  <div key={index} className="col-1-details">
+                    <img src={ele.images[0]} alt="" />
+                    <div className="col-1-tx">
+                      <h4>{ele.title}</h4>
+                      <h5>{ele.price}$</h5>
+                      <div className="icons">
+                        <i className="fa-solid fa-heart"></i>
+                        <i
+                          onClick={() => ShowDetails(ele)}
+                          className="fa-solid fa-eye"
+                        ></i>
+                        <i
+                          onClick={() => AddtoCart(ele)}
+                          className="fa-solid fa-cart-shopping"
+                        ></i>
                       </div>
                     </div>
-                  
+                  </div>
                 ))}
               </div>
             </div>

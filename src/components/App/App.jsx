@@ -1,21 +1,27 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
 import { BrowserRouter } from "react-router-dom";
 import Rout from "../Rout/Rout";
-import HomeProduct from "../Home/HomeProduct";
+import { ProductContext } from "../Context/MediaStore";
 
 export default function App() {
+  // all ptoduct api
+  const { AllProduct } = useContext(ProductContext);
+  const { setAllProduct } = useContext(ProductContext);
+  // shop page api
+  const { ShopPage } = useContext(ProductContext);
+  const { SetShopPage } = useContext(ProductContext);
+
   // search box for cat only
   const [Search, SetSearch] = useState("");
-  // shop page
-  const [ShopPage, SetShopPage] = useState(HomeProduct);
+
   // add to cart
   const [CartPage, SetCartPage] = useState([]);
 
   // shop page
   const CatigoryProduct = (x) => {
-    const CatProduct = HomeProduct.filter((ele) => ele.cat === x);
+    const CatProduct = AllProduct.filter((ele) => ele.category === x);
     SetShopPage(CatProduct);
   };
 
@@ -23,9 +29,9 @@ export default function App() {
   const SearchFilter = () => {
     if ((Search || []).length === 0) {
       alert("Please write in search box !");
-      SetShopPage(HomeProduct);
+      SetShopPage(AllProduct);
     } else {
-      const searchCat = HomeProduct.filter((ele) => ele.cat === Search);
+      const searchCat = AllProduct.filter((ele) => ele.cat === Search);
       SetShopPage(searchCat);
     }
   };
@@ -40,6 +46,7 @@ export default function App() {
       SetCartPage([...CartPage, { ...product, qty: 1 }]);
     }
   };
+
   return (
     <>
       <BrowserRouter>
@@ -54,7 +61,9 @@ export default function App() {
           CatigoryProduct={CatigoryProduct}
           AddtoCart={AddtoCart}
           CartPage={CartPage}
-          SetCartPage ={SetCartPage}
+          SetCartPage={SetCartPage}
+          AllProduct={AllProduct}
+          setAllProduct={setAllProduct}
         />
         <Footer />
       </BrowserRouter>
