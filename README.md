@@ -2,7 +2,7 @@
 
 ## To preview the project
 
-### click here: [Techayo Project](https://pluto2.netlify.app/)
+### click here: [Techayo Project](https://techayo.netlify.app/)
 
 ---
 
