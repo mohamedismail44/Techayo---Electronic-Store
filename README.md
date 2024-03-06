@@ -6,7 +6,7 @@
 
 ---
 
-### All data and login from Api https://auth0.com/
+### All data and login from Api https://dummyjson.com/
 
 ---
 
